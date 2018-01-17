@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +14,20 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.lanjian.cniaoshop.R;
+import com.lanjian.cniaoshop.adapter.HomeCampaignAdapter;
+import com.lanjian.cniaoshop.bean.BannerData;
+import com.lanjian.cniaoshop.bean.HomeCampaign;
+import com.lanjian.cniaoshop.net.JsonCallBack;
+import com.lanjian.cniaoshop.utils.API;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.model.Response;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.loader.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -27,8 +37,10 @@ public class HomeFragment extends Fragment {
 
     private View view;
     private Banner banner;
-    private ArrayList<String> titles;
-    private ArrayList<String> images;
+    private ArrayList<String> titles = new ArrayList<>();
+    private ArrayList<String> images = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+    private HomeCampaignAdapter mAdatper;
 
     @Nullable
     @Override
@@ -41,27 +53,60 @@ public class HomeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
-        setBannerImages();
-        setBannerTitles();
-        setBanner();
+        initData();
     }
+
+    private void initData() {
+        initRecyclerView();
+        getBannerDataFormNet();
+        getCampaignDataForNet();
+    }
+
+    private void getCampaignDataForNet() {
+        OkGo.<List<HomeCampaign>>post(API.CAMPAIGN_URL)
+                .tag(getActivity())
+                .execute(new JsonCallBack<List<HomeCampaign>>() {
+                    @Override
+                    public void SuccessData(Response<List<HomeCampaign>> response) {
+                        mAdatper.setDatas(response.body());
+                    }
+                });
+    }
+
+    private void initRecyclerView() {
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+
+        mAdatper = new HomeCampaignAdapter(getActivity());
+
+        mRecyclerView.setAdapter(mAdatper);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
 
     private void initView() {
         banner = view.findViewById(R.id.banner);
+        mRecyclerView = view.findViewById(R.id.recyclerview);
     }
 
-    private void setBannerImages() {
-        images = new ArrayList<String>();
-        images.add("http://7mno4h.com2.z0.glb.qiniucdn.com/5608f3b5Nc8d90151.jpg");
-        images.add("http://7mno4h.com2.z0.glb.qiniucdn.com/5608eb8cN9b9a0a39.jpg");
-        images.add("http://7mno4h.com2.z0.glb.qiniucdn.com/5608cae6Nbb1a39f9.jpg");
+    private void setBannerData(List<BannerData> banners) {
+        for (int i=0;i<banners.size();i++){
+            images.add(banners.get(i).getImgUrl());
+            titles.add(banners.get(i).getName());
+            setBanner();
+        }
     }
+    private void getBannerDataFormNet() {
 
-    private void setBannerTitles() {
-        titles = new ArrayList<String>();
-        titles.add("音箱狂欢");
-        titles.add("手机国庆礼");
-        titles.add("IT生活");
+        OkGo.<List<BannerData>>post(API.BANNER_URL)
+        .tag(getActivity())
+        .params("type","1")
+        .execute(new JsonCallBack<List<BannerData>>() {
+            @Override
+            public void SuccessData(Response<List<BannerData>> response) {
+                setBannerData(response.body());
+            }
+        });
     }
 
     private void setBanner() {

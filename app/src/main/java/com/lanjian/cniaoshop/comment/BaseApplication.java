@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
+import com.lzy.okgo.OkGo;
+
 /**
  * Created by Administrator on 2017/8/28 0028.
  */
@@ -28,6 +30,7 @@ public class BaseApplication extends Application {
         mainThreadId = android.os.Process.myTid();//获取当前线程的id
         //初始化全局捕捉异常
         //CrashHandler.getInstance().init();
+        OkGo.getInstance().init(this);
     }
 
 }
