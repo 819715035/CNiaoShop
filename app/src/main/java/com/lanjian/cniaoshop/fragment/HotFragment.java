@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +14,18 @@ import android.view.ViewGroup;
 
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lanjian.cniaoshop.R;
 import com.lanjian.cniaoshop.adapter.BaseAdapter;
 import com.lanjian.cniaoshop.adapter.HWAdapter;
+import com.lanjian.cniaoshop.bean.HomeCampaign;
 import com.lanjian.cniaoshop.bean.Page;
 import com.lanjian.cniaoshop.bean.Wares;
 import com.lanjian.cniaoshop.net.JsonCallBack;
 import com.lanjian.cniaoshop.utils.API;
 import com.lanjian.cniaoshop.utils.LogUtils;
+import com.lanjian.cniaoshop.utils.SPUtils;
 import com.lanjian.cniaoshop.utils.ToastUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -104,6 +109,18 @@ public class HotFragment extends Fragment{
                     public void SuccessData(Response<Page<Wares>> response) {
                         totalCount = response.body().getTotalCount();
                         showData(response.body());
+                        String gson = new Gson().toJson(response.body());
+                        SPUtils.put("HOT_URL",gson);
+                    }
+
+                    @Override
+                    public void onError(Response<Page<Wares>> response) {
+                        super.onError(response);
+                        String data = SPUtils.getValue("HOT_URL","");
+                        if (!TextUtils.isEmpty(data)){
+                            Page<Wares> hots = new Gson().fromJson(data,new TypeToken<Page<Wares>>(){}.getType());
+                            showData(hots);
+                        }
                     }
                 });
     }

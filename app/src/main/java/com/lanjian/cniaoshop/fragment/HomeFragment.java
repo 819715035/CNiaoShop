@@ -7,18 +7,23 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.lanjian.cniaoshop.R;
 import com.lanjian.cniaoshop.adapter.HomeCampaignAdapter;
 import com.lanjian.cniaoshop.bean.BannerData;
 import com.lanjian.cniaoshop.bean.HomeCampaign;
 import com.lanjian.cniaoshop.net.JsonCallBack;
 import com.lanjian.cniaoshop.utils.API;
+import com.lanjian.cniaoshop.utils.LogUtils;
+import com.lanjian.cniaoshop.utils.SPUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
 import com.youth.banner.Banner;
@@ -69,6 +74,18 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void SuccessData(Response<List<HomeCampaign>> response) {
                         mAdatper.setDatas(response.body());
+                        String gson = new Gson().toJson(response.body());
+                        SPUtils.put("CAMPAIGN_URL",gson);
+                    }
+
+                    @Override
+                    public void onError(Response<List<HomeCampaign>> response) {
+                        super.onError(response);
+                        String data = SPUtils.getValue("CAMPAIGN_URL","");
+                        if (!TextUtils.isEmpty(data)){
+                            List<HomeCampaign> homeCampaigns = new Gson().fromJson(data,new TypeToken<List<HomeCampaign>>(){}.getType());
+                            mAdatper.setDatas(homeCampaigns);
+                        }
                     }
                 });
     }
@@ -105,6 +122,18 @@ public class HomeFragment extends Fragment {
             @Override
             public void SuccessData(Response<List<BannerData>> response) {
                 setBannerData(response.body());
+                String gson = new Gson().toJson(response.body());
+                SPUtils.put("BANNER_URL",gson);
+            }
+
+            @Override
+            public void onError(Response<List<BannerData>> response) {
+                super.onError(response);
+                String data = SPUtils.getValue("BANNER_URL","");
+                if (!TextUtils.isEmpty(data)){
+                    List<BannerData> bannerdata = new Gson().fromJson(data,new TypeToken<List<BannerData>>(){}.getType());
+                    setBannerData(bannerdata);
+                }
             }
         });
     }
