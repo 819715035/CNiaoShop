@@ -7,21 +7,19 @@
 
 <!--购物车Fragment-->
 
-    <com.cniao5.cniao5shop.widget.CnToolbar
-        android:id="@+id/toolbar_search_view"
-        android:layout_width="fill_parent"
+    <com.lanjian.cniaoshop.weight.CommonTitleView
+        android:id="@+id/title_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:contentInsetEnd="56dp"
-        app:isShowSearchView="false"
-        app:title="购物车"
-        android:layout_alignParentTop="true"
-        />
+        app:title_context = "@string/cart_title"
+        app:show_right = "true"
+        >
+
+    </com.lanjian.cniaoshop.weight.CommonTitleView>
 
     <!--购物车数据-->
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/toolbar_search_view"
+        android:layout_below="@+id/title_view"
         android:id="@+id/recyclerview_cart"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

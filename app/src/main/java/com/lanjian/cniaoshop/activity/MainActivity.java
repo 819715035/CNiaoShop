@@ -78,6 +78,7 @@ public class MainActivity extends BaseActivity {
                     cartFragment = new CartFragment();
                     transaction.add(R.id.fl_main,cartFragment);
                 }
+                cartFragment.refreshData();
                 transaction.show(cartFragment);
                 break;
             case 4:

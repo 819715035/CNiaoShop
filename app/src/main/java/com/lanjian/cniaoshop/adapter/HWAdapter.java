@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.lanjian.cniaoshop.R;
 import com.lanjian.cniaoshop.bean.Wares;
+import com.lanjian.cniaoshop.utils.CartProvider;
+import com.lanjian.cniaoshop.utils.ToastUtils;
 
 import java.util.List;
 
@@ -18,11 +20,11 @@ import java.util.List;
  * 热卖商品适配器
  */
 public class HWAdapter extends SimpleAdapter<Wares>{
-
+    private CartProvider cartProvider;
 
     public HWAdapter(Context context, List<Wares> datas) {
         super(context, datas, R.layout.template_hot_wares);
-
+        cartProvider = CartProvider.getInstance(context);
     }
 
     @Override
@@ -43,6 +45,10 @@ public class HWAdapter extends SimpleAdapter<Wares>{
                 @Override
                 public void onClick(View v) {
                     //添加数据到购物车
+                    //添加数据到购物车
+                    cartProvider.put(wares);
+
+                    ToastUtils.showToastShort(mContext.getString(R.string.has_add_cart));
                 }
             });
         }

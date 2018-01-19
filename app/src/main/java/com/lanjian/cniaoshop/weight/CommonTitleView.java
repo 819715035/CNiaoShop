@@ -22,7 +22,7 @@ public class CommonTitleView extends LinearLayout {
     private TextView titleTv;
     private ImageView backIv;
     private boolean showLeftView,showRightView;
-    private ImageView rightIv;
+    private TextView rightIv;
     private int titleSize;
     private int titleColor;
     private String titleContent;
@@ -53,7 +53,7 @@ public class CommonTitleView extends LinearLayout {
     private void initView() {
         titleTv= (TextView) view.findViewById(R.id.title_tv);
         backIv= (ImageView) view.findViewById(R.id.back_iv);
-        rightIv= (ImageView) view.findViewById(R.id.right_iv);
+        rightIv= (TextView) view.findViewById(R.id.right_iv);
     }
 
     /**
@@ -88,7 +88,7 @@ public class CommonTitleView extends LinearLayout {
         titleTv.setTextSize(titleSize);
         titleTv.setText(titleContent);
         backIv.setImageResource(leftDrawable);
-        rightIv.setImageResource(rightDrawable);
+        //rightIv.setBackgroundResource(rightDrawable);
         if (showLeftView) {
             backIv.setVisibility(VISIBLE);
             backIv.setOnClickListener(new OnClickListener() {
