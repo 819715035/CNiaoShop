@@ -84,4 +84,8 @@
         <item name="android:background">@drawable/bg_btn_style_red</item>
     </style>
 
+    <!--checkbox样式-->
+    <style name="customCheckbox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/selector_checkbox</item>
+    </style>
 </resources>

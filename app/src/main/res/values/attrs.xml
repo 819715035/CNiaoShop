@@ -7,4 +7,14 @@
         <attr name="isShowSearchView" format="boolean"/>
 
     </declare-styleable>
+
+    <declare-styleable name="NumberAddSubView">
+        <attr name="value" format="integer|reference"/>
+        <attr name="minvalue" format="integer|reference"/>
+        <attr name="maxvalue" format="integer|reference"/>
+        <attr name="btnAddBackground" format="reference"/>
+        <attr name="btnSubBackground" format="reference"/>
+        <attr name="textViewBackground" format="reference"/>
+    </declare-styleable>
+
 </resources>

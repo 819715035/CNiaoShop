@@ -16,4 +16,11 @@ public class API {
     //热卖链接
     public static String HOT_URL = BASE_URL+"wares/hot";
 
+    //分类导航
+    public static String CATEGORY_URL = BASE_URL+"category/list";
+
+    //分类产品列表
+    public static String WARSLIST_URL = BASE_URL+"wares/list";
+
+
 }
