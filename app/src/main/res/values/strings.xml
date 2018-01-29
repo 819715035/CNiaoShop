@@ -27,6 +27,8 @@
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_new_order">NewOrderActivity</string>
     <string name="token_error">校验失效，请重新登录</string>
+    <string name="title_activity_register1">用户注册（1/2）</string>
+    <string name="register_next">下一步</string>
     <string name="title_activity_register">注册</string>
     <string name="title_activity_register2">Register2Activity</string>
     <string name="title_activity_create_order">CreateOrderActivity</string>

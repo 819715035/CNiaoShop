@@ -2,6 +2,7 @@ package com.lanjian.cniaoshop.adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.lanjian.cniaoshop.R;
+import com.lanjian.cniaoshop.activity.WaresDetailsActivity;
 import com.lanjian.cniaoshop.bean.Wares;
 import com.lanjian.cniaoshop.utils.CartProvider;
+import com.lanjian.cniaoshop.utils.Constants;
 import com.lanjian.cniaoshop.utils.ToastUtils;
 
 import java.util.List;
@@ -64,6 +67,5 @@ public class HWAdapter extends SimpleAdapter<Wares>{
 
         notifyItemRangeChanged(0, getDatas().size());
     }
-
 
 }

@@ -16,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lanjian.cniaoshop.R;
+import com.lanjian.cniaoshop.activity.LoginActivity;
+import com.lanjian.cniaoshop.bean.User;
 import com.lanjian.cniaoshop.utils.ScreenUtils;
 
 /**
@@ -251,5 +253,22 @@ public abstract class BaseActivity extends AppCompatActivity{
             }
         }
         return false;
+    }
+
+    public void startActivity(Intent intent, boolean isNeedLogin) {
+
+        if (isNeedLogin) {
+            User user = BaseApplication.application.getUser();
+
+            if (user != null) {
+                super.startActivity(intent);
+            } else {
+               BaseApplication.application.putIntent(intent);
+                Intent loginIntent = new Intent(this, LoginActivity.class);
+                super.startActivity(loginIntent);
+            }
+        } else {
+            super.startActivity(intent);
+        }
     }
 }

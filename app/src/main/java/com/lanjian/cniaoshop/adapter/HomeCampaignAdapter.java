@@ -105,7 +105,19 @@ public class HomeCampaignAdapter extends RecyclerView.Adapter<HomeCampaignAdapte
         @Override
         public void onClick(View v) {
             if (campaignClickListener != null) {
-                anim(v);
+                HomeCampaign campaign = mDatas.get(getLayoutPosition());
+
+                switch (v.getId()) {
+                    case R.id.imgview_big:
+                        campaignClickListener.onClick(v, campaign.getCpOne());
+                        break;
+                    case R.id.imgview_small_top:
+                        campaignClickListener.onClick(v, campaign.getCpTwo());
+                        break;
+                    case R.id.imgview_small_bottom:
+                        campaignClickListener.onClick(v, campaign.getCpThree());
+                        break;
+                }
             }
         }
 
@@ -115,14 +127,14 @@ public class HomeCampaignAdapter extends RecyclerView.Adapter<HomeCampaignAdapte
          * @param v
          */
         private void anim(final View v) {
-            ObjectAnimator animator = ObjectAnimator.ofFloat(v, "rotationX", 0.0F, 360F)
+            ObjectAnimator animator = ObjectAnimator.ofFloat(v, "rotationX", 0.0F, 180F)
                     .setDuration(200);
             animator.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     super.onAnimationEnd(animation);
 
-                    HomeCampaign campaign = mDatas.get(getLayoutPosition()-1);
+                    HomeCampaign campaign = mDatas.get(getLayoutPosition());
 
                     switch (v.getId()) {
                         case R.id.imgview_big:

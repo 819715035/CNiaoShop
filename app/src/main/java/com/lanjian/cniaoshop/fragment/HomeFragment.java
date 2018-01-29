@@ -1,6 +1,7 @@
 package com.lanjian.cniaoshop.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,12 +18,14 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.lanjian.cniaoshop.R;
+import com.lanjian.cniaoshop.activity.WaresListActivity;
 import com.lanjian.cniaoshop.adapter.HomeCampaignAdapter;
 import com.lanjian.cniaoshop.bean.BannerData;
+import com.lanjian.cniaoshop.bean.Campaign;
 import com.lanjian.cniaoshop.bean.HomeCampaign;
 import com.lanjian.cniaoshop.net.JsonCallBack;
 import com.lanjian.cniaoshop.utils.API;
-import com.lanjian.cniaoshop.utils.LogUtils;
+import com.lanjian.cniaoshop.utils.Constants;
 import com.lanjian.cniaoshop.utils.SPUtils;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.model.Response;
@@ -95,7 +98,14 @@ public class HomeFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
 
         mAdatper = new HomeCampaignAdapter(getActivity());
-
+        mAdatper.setOnCampaignClickListener(new HomeCampaignAdapter.OnCampaignClickListener() {
+            @Override
+            public void onClick(View view, Campaign campaign) {
+                Intent intent = new Intent(getActivity(), WaresListActivity.class);
+                intent.putExtra(Constants.CAMPAIGN_ID,campaign.getId());
+                startActivity(intent);
+            }
+        });
         mRecyclerView.setAdapter(mAdatper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }

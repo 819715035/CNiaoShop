@@ -182,7 +182,7 @@ public class CategoryFragment extends Fragment {
                     mWaresAdapter.setOnItemClickListenner(new BaseAdapter.OnItemClickListenner() {
                         @Override
                         public void onItemClick(View view, int position) {
-                            //mWaresAdapter.showDetail(mWaresAdapter.getItem(position));
+                            mWaresAdapter.showDetail(mWaresAdapter.getItem(position));
                         }
                     });
                     recyclerview.setAdapter(mWaresAdapter);

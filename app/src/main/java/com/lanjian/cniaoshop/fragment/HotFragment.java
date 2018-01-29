@@ -150,6 +150,8 @@ public class HotFragment extends Fragment{
         mAdapter.setOnItemClickListenner(new BaseAdapter.OnItemClickListenner() {
             @Override
             public void onItemClick(View view, int position) {
+                Wares wares = mAdapter.getItem(position);
+                mAdapter.showDetail(wares);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
