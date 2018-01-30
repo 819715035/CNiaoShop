@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.lanjian.cniaoshop.R;
 import com.lanjian.cniaoshop.adapter.FullyLinearLayoutManager;
 import com.lanjian.cniaoshop.adapter.OrderItemAdapter;
@@ -23,11 +24,13 @@ import com.lanjian.cniaoshop.bean.ShoppingCart;
 import com.lanjian.cniaoshop.comment.BaseActivity;
 import com.lanjian.cniaoshop.comment.BaseApplication;
 import com.lanjian.cniaoshop.utils.AddressProvider;
+import com.lanjian.cniaoshop.utils.CartProvider;
 import com.lanjian.cniaoshop.utils.Constants;
 import com.lanjian.cniaoshop.utils.LogUtils;
 import com.lanjian.cniaoshop.utils.ToastUtils;
 import com.lanjian.cniaoshop.weight.CommonTitleView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -149,7 +152,6 @@ public class NewOrderActivity extends BaseActivity implements View.OnClickListen
          */
         if (SIGN == Constants.CART) {
             List<ShoppingCart> carts = (List<ShoppingCart>) getIntent().getSerializableExtra("carts");
-            System.out.println("showData---" + carts.size());
             wareOrderAdapter = new WareOrderAdapter(this, carts);
             FullyLinearLayoutManager layoutManager = new FullyLinearLayoutManager(this);
             layoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
@@ -160,7 +162,6 @@ public class NewOrderActivity extends BaseActivity implements View.OnClickListen
              */
         } else if (SIGN == Constants.ORDER) {
             List<OrderItem> orderItems = (List<OrderItem>) getIntent().getSerializableExtra("order");
-            System.out.println("orderItems---" + orderItems.size());
             orderItemAdapter = new OrderItemAdapter(this, orderItems);
             FullyLinearLayoutManager layoutManager = new FullyLinearLayoutManager(this);
             layoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
@@ -274,6 +275,81 @@ public class NewOrderActivity extends BaseActivity implements View.OnClickListen
                 //其他的都改为未选中
                 rb.setChecked(false);
             }
+        }
+    }
+
+
+    /**
+     * 提交订单
+     *
+     * @param view
+     */
+    public void postNewOrder(View view) {
+
+        List<WareItem> items = new ArrayList<>();
+
+        //判断购物车还是再次购买订单返回
+        if (SIGN == Constants.CART) {
+            postOrderByCart(items);
+        } else if (SIGN == Constants.ORDER) {
+            postOrderByMyOrder(items);
+        }
+
+    }
+
+    private void postOrderByMyOrder(List<WareItem> items) {
+        ToastUtils.showToastShort("正在完善中");
+    }
+
+    /**
+     * 商品id和价格显示适配器
+     */
+    class WareItem {
+        private Long ware_id;
+        private int amount;
+
+        public WareItem(Long ware_id, int amount) {
+            this.ware_id = ware_id;
+            this.amount = amount;
+        }
+
+        public Long getWare_id() {
+            return ware_id;
+        }
+
+        public void setWare_id(Long ware_id) {
+            this.ware_id = ware_id;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public void setAmount(int amount) {
+            this.amount = amount;
+        }
+    }
+
+    /**
+     * 提交购物车订单
+     *
+     * @param items 商品集合
+     */
+    private void postOrderByCart(List<WareItem> items) {
+        final List<ShoppingCart> carts = wareOrderAdapter.getDatas();
+        //获取购物车数据
+        for (ShoppingCart cart : carts) {
+            WareItem item = new WareItem(cart.getId(), (int) Float.parseFloat(cart.getPrice()));
+            items.add(item);
+        }
+        ToastUtils.showToastShort("正在完善中...");
+
+        /**
+         * 清空已购买商品
+         */
+        if (SIGN == Constants.CART) {
+            CartProvider mCartProvider = CartProvider.getInstance(NewOrderActivity.this);
+            mCartProvider.delete(carts);
         }
     }
 }
