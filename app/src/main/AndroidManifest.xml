@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.lanjian.cniaoshop">
-
+    package="com.lanjian.cniaoshop"
+    >
     <!-- if you want to load images from the internet -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -47,7 +47,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        >
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -67,12 +68,6 @@
         <activity android:name=".activity.AddressAddActivity" />
         <activity android:name=".activity.NewOrderActivity"></activity>
 
-        <meta-data
-        android:name="mob_sms_appKey"
-        android:value="18dfe70d642d0" />
-        <meta-data
-        android:name="mob_sms_appSectret"
-        android:value="048a7ec17cf0053d874387f318250ce1" />
     </application>
 
 </manifest>

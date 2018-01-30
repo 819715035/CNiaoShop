@@ -8,6 +8,7 @@ import android.os.Handler;
 import com.lanjian.cniaoshop.bean.User;
 import com.lanjian.cniaoshop.utils.UserLocalData;
 import com.lzy.okgo.OkGo;
+import com.mob.MobSDK;
 
 /**
  * Created by Administrator on 2017/8/28 0028.
@@ -35,6 +36,7 @@ public class BaseApplication extends Application {
         //CrashHandler.getInstance().init();
         OkGo.getInstance().init(this);
         initUser();
+        MobSDK.init(this,"223fb42c543e2","e5919b1df2329f8151f41d8bd5dc6f79");
     }
     private void initUser() {
         this.user = UserLocalData.getUser(this);

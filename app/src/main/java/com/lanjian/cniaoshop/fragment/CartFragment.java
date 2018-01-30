@@ -14,10 +14,15 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.lanjian.cniaoshop.R;
+import com.lanjian.cniaoshop.activity.LoginActivity;
+import com.lanjian.cniaoshop.activity.NewOrderActivity;
 import com.lanjian.cniaoshop.adapter.CartAdapter;
 import com.lanjian.cniaoshop.adapter.DividerItemDecortion;
 import com.lanjian.cniaoshop.bean.ShoppingCart;
+import com.lanjian.cniaoshop.bean.User;
+import com.lanjian.cniaoshop.comment.BaseApplication;
 import com.lanjian.cniaoshop.utils.CartProvider;
+import com.lanjian.cniaoshop.utils.Constants;
 import com.lanjian.cniaoshop.utils.ToastUtils;
 import com.lanjian.cniaoshop.weight.CommonTitleView;
 
@@ -157,14 +162,30 @@ public class CartFragment extends Fragment {
      */
     @OnClick(R.id.btn_order)
     public void toOrder(View v) {
-/*
         if (mAdapter.getCheckData() != null && mAdapter.getCheckData().size() > 0) {
             Intent intent = new Intent(getActivity(), NewOrderActivity.class);
             intent.putExtra("carts", (Serializable) mAdapter.getCheckData());
             intent.putExtra("sign", Constants.CART);
             startActivity(intent, true);
         } else {
-            ToastUtils.show(getContext(), "请选择要购买的商品");
-        }*/
+            ToastUtils.showToastShort( "请选择要购买的商品");
+        }
+    }
+
+    public void startActivity(Intent intent, boolean isNeedLogin) {
+
+        if (isNeedLogin) {
+            User user = BaseApplication.application.getUser();
+
+            if (user != null) {
+                super.startActivity(intent);
+            } else {
+                BaseApplication.application.putIntent(intent);
+                Intent loginIntent = new Intent(getActivity(), LoginActivity.class);
+                super.startActivity(loginIntent);
+            }
+        } else {
+            super.startActivity(intent);
+        }
     }
 }

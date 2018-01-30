@@ -85,11 +85,11 @@ public class LoginActivity extends AppCompatActivity {
                     public void SuccessData(Response<LoginRespMsg<User>> response) {
                         LoginRespMsg<User> result = response.body();
                         BaseApplication application = BaseApplication.application;
-                        application.putUser(result.getData(), result.getToken());
                         /**
                          * 根据登录意图判断是否已经登录
                          */
                         if (application.getIntent() == null && result.getData() != null && result.getToken() != null) {
+                            application.putUser(result.getData(), result.getToken());
 
                             setResult(Constants.REQUEST_CODE);
 
