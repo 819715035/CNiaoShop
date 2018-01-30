@@ -19,16 +19,17 @@ public class Address implements Serializable, Comparable<Address> {
     private String phone;
     private String addr;
     private String zip_code;
-    private Boolean isDefault;
+    private boolean isDefault = false;
 
     public Address() {
     }
 
-    public Address(String consignee, String phone, String addr, String zipCode) {
+    public Address(long id,String consignee, String phone, String addr, String zipCode) {
         this.consignee = consignee;
         this.phone = phone;
         this.addr = addr;
         this.zip_code = zipCode;
+        setId(id);
     }
 
     public Long getUserId() {

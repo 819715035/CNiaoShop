@@ -18,6 +18,7 @@ import com.lanjian.cniaoshop.comment.BaseApplication;
 import com.lanjian.cniaoshop.msg.BaseResMsg;
 import com.lanjian.cniaoshop.net.JsonCallBack;
 import com.lanjian.cniaoshop.utils.API;
+import com.lanjian.cniaoshop.utils.AddressProvider;
 import com.lanjian.cniaoshop.utils.Constants;
 import com.lanjian.cniaoshop.utils.ToastUtils;
 import com.lanjian.cniaoshop.weight.CommonTitleView;
@@ -39,6 +40,8 @@ public class AddressListActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     private AddressAdapter mAdapter;
     private CustomDialog mDialog;
+    private List<Address> addresss;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,6 +111,8 @@ public class AddressListActivity extends AppCompatActivity {
      */
     private void deleteAddress(Address address) {
 
+        AddressProvider.getInstance(this).delete(address);
+        mAdapter.refreshData(AddressProvider.getInstance(this).getAll());
         OkGo.<BaseResMsg>post(API.ADDR_DEL)
                 .tag(this)
                 .params("id",address.getId())
@@ -151,7 +156,10 @@ public class AddressListActivity extends AppCompatActivity {
      */
     private void initAddress() {
         String userId = BaseApplication.application.getUser().getId() + "";
-
+        addresss = AddressProvider.getInstance(this).getAll();
+        if (addresss!=null && addresss.size()>0){
+            showAddress(addresss);
+        }
         if (!TextUtils.isEmpty(userId)) {
             OkGo.<List<Address>>get(API.ADDR_LIST)
                     .tag(this)
@@ -182,7 +190,7 @@ public class AddressListActivity extends AppCompatActivity {
                 public void setDefault(Address address) {
                     setResult(RESULT_OK);
                     //更改地址
-                    updateAddress(address);
+                    AddressProvider.getInstance(AddressListActivity.this).updateDefault(address);
                 }
 
                 @Override
@@ -226,6 +234,8 @@ public class AddressListActivity extends AppCompatActivity {
      * @param address
      */
     public void updateAddress(Address address) {
+        initAddress();
+        AddressProvider.getInstance(this).update(address);
         OkGo.<BaseResMsg>post(API.ADDR_UPDATE)
                 .tag(this)
                 .params("id",address.getId())

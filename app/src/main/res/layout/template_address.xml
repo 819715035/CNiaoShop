@@ -47,8 +47,6 @@
             android:textColor="@color/gray"/>
     </LinearLayout>
 
-    <View
-        style="@style/line_horizontal"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

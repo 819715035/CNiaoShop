@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.lanjian.cniaoshop.R;
 import com.lanjian.cniaoshop.bean.Address;
+import com.lanjian.cniaoshop.utils.AddressProvider;
 
 import java.util.List;
 
@@ -19,10 +20,12 @@ public class AddressAdapter extends SimpleAdapter<Address> {
     private AddressLisneter mAddressLisneter;
     private TextView mTvEdit;
     private TextView mTvDelete;
+    private Context context;
 
     public AddressAdapter(Context context, List<Address> datas, AddressLisneter addressLisneter) {
         super(context, datas, R.layout.template_address);
         this.mAddressLisneter = addressLisneter;
+        this.context = context;
     }
 
     public TextView getmTvEdit() {
@@ -70,6 +73,7 @@ public class AddressAdapter extends SimpleAdapter<Address> {
                     if (isChecked && mAddressLisneter != null) {
                         address.setIsDefault(true);
                         mAddressLisneter.setDefault(address);
+                        updateData(address);
                     }
                 }
             });
@@ -90,6 +94,11 @@ public class AddressAdapter extends SimpleAdapter<Address> {
                     mAddressLisneter.onClickDelete(address);
             }
         });
+    }
+
+    private void updateData(Address address) {
+        refreshData(AddressProvider.getInstance(context).getAll());
+
     }
 
     public String replacePhoneNum(String phone) {

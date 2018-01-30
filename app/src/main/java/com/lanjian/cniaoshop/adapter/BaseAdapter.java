@@ -96,9 +96,8 @@ public abstract class BaseAdapter<T, H extends BaseViewHolder> extends RecyclerV
      * @param list
      */
     public void refreshData(List<T> list) {
+        clearData();
         if (list != null && list.size() > 0) {
-            clearData();
-
             int size = list.size();
 
             for (int i = 0; i < size; i++) {

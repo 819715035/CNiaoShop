@@ -19,6 +19,7 @@ import com.lanjian.cniaoshop.comment.BaseApplication;
 import com.lanjian.cniaoshop.msg.BaseResMsg;
 import com.lanjian.cniaoshop.net.JsonCallBack;
 import com.lanjian.cniaoshop.utils.API;
+import com.lanjian.cniaoshop.utils.AddressProvider;
 import com.lanjian.cniaoshop.utils.Constants;
 import com.lanjian.cniaoshop.utils.GetJsonDataUtil;
 import com.lanjian.cniaoshop.utils.ToastUtils;
@@ -95,6 +96,7 @@ public class AddressAddActivity extends AppCompatActivity {
                     //编辑地址
                     updateAddress(address);
                 }
+                finish();
             }
         });
         titleView.setLeftListener(new View.OnClickListener() {
@@ -134,6 +136,8 @@ public class AddressAddActivity extends AppCompatActivity {
         String consignee = etConsignee.getText().toString();
         String phone = etPhone.getText().toString();
         String addr = tvAddress.getText().toString() + "-" + etAddDes.getText().toString();
+        Address as = new Address(address.getId(),consignee,phone,addr,"000000");
+        AddressProvider.getInstance(this).update(as);
         OkGo.<BaseResMsg>post(API.ADDR_UPDATE)
                 .tag(this)
                 .params("id",address.getId())
@@ -197,6 +201,8 @@ public class AddressAddActivity extends AppCompatActivity {
         String address = tvAddress.getText().toString() + "-" + etAddDes.getText().toString();
 
         if (checkPhone(phone)) {
+            Address addr = new Address(System.currentTimeMillis(),consignee,phone,address,"000000");
+            AddressProvider.getInstance(this).put(addr);
             String userId = BaseApplication.application.getUser().getId() + "";
             String token = BaseApplication.application.getToken();
             OkGo.<BaseResMsg>post(API.ADDR_CREATE)
