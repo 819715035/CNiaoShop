@@ -116,6 +116,11 @@ public class CartFragment extends Fragment {
         checkboxAll.setChecked(false);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        showData();
+    }
 
     /**
      * 显示购物车数据
